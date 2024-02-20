@@ -12,9 +12,24 @@ body{
     justify-content: center;
     align-items: center;
 }
+.container{
+    padding: 2rem;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 30rem;
+    max-height: 100vh;
+    box-shadow: .1rem .1rem .5rem .2rem #615b5b;
+}
 
 .conten{
-    width: 70%;
+    margin-top: 2rem;
+    width: 30rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
 
 }
  .conten input{
@@ -29,3 +44,27 @@ body{
     background-color: rgb(54, 209, 54);
     border-radius: 10px;
  }
+ .output_result{
+    margin-top: 10px;
+    padding: 1rem;
+    width: 90%;
+    font-weight: bold;
+    font-size: 1.5rem;
+    height: 100px;
+    background-color: aliceblue;
+    border: .1rem solid #ccc;
+ }
+ .output_result p {
+    color: red;
+    font-size: 1rem;
+
+
+ }
+ /* .output_result.gagn{
+    
+    f
+ } */
+
+  .output_result.gagn p{
+    color: green;
+  }
