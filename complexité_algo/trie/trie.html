@@ -15,34 +15,41 @@
         <div class="row">
 
             <div class="col-md-12">
-                <div id="dataContainer">
-                    <!-- Container pour afficher les données -->
-                    <h2>Données générées</h2>
-                    <table class="table table-bordered table-responsive table-striped">
-                        <thead>
-                            <tr>
-                                <th>Taille du tableau</th>
-                                <th>Coût triSelectionIteratifAvecCout</th>
-                                <th>Coût triSelectionRecursifAvecCout</th>
-                                <th>Coût triBullesAvecCout</th>
-                                <th>Coût triRapideAvecCout</th>
-                                <th>Coût triInsertionAvecCout</th>
-                            </tr>
-                        </thead>
-                        <tbody id="dataTableBody"></tbody>
-                    </table>
-                </div>
+                <!-- 
+                    <div id="dataContainer">
+                        
+                        <h2>Données générées</h2>
+                        <table class="table table-bordered table-responsive table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Taille du tableau</th>
+                                    <th>Coût triSelectionIteratifAvecCout</th>
+                                    <th>Coût triSelectionRecursifAvecCout</th>
+                                    <th>Coût triBullesAvecCout</th>
+                                    <th>Coût triRapideAvecCout</th>
+                                    <th>Coût triInsertionAvecCout</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dataTableBody"></tbody>
+                        </table>
+                    </div>
+                
+                -->
 
             </div>
             <div class="col-md-12">
-                <form action="">
+                <form class="d-flex py-5 gap-2">
                     <div class="form-group">
-                        <label for="size">size</label>
-                        <input type="range" value="10" min="5" max="50" id="size">
+                        <label for="start">Start</label>
+                        <input type="range" id="start" name="start" value="0" min="0" max="100" step="10">
                     </div>
                     <div class="form-group">
-                        <label for="step">step</label>
-                        <input type="range" value="1" min="1" max="10" id="step">
+                        <label for="end">End</label>
+                        <input type="range" id="end" name="end" value="10" min="0" max="100" step="5">
+                    </div>
+                    <div class="form-group">
+                        <label for="step">Step</label>
+                        <input type="range" id="step" name="step" value="1" min="1" max="10" step="1">
                     </div>
                 </form>
                 <canvas id="myChart" width="400" height="200"></canvas>
@@ -58,13 +65,12 @@
             const n = arr.length;
             let cout = 0;
 
-            cout++
             for (let i = 0; i < n - 1; i++) {
-                cout += 3; // Comparaison
-                // i == 0 ? cout++ : null
+                cout += 2; // Comparaison
+                i == 0 ? cout++ : null
                 for (let j = i + 1; j < n; j++) {
                     cout += 3; // Comparaison
-                    //j == 0 ? cout++ : null
+                    j == 0 ? cout++ : null
                     if (arr[j] < arr[i]) {
                         [arr[i], arr[j]] = [arr[j], arr[i]];
                         cout += 3; // Échange
@@ -165,97 +171,71 @@
         }
 
         // Données pour les courbes
+        function genererTableauAleatoire(taille) {
+            const tableau = [];
+            for (let i = 0; i < taille; i++) {
+                tableau.push(Math.floor(Math.random() * 100));
+            }
+            return tableau;
+        }
 
-        /*   function afficherDonneesDansTableau(x, y1, y2, y3, y4, y5) {
-               const dataTableBody = document.getElementById('dataTableBody');
-           
-               for (let i = 0; i < x.length; i++) {
-                   const newRow = document.createElement('tr');
-           
-                   // Création de cellules
-                   const cells = [
-                       createTableCell(x[i]),
-                       createTableCell(y1[i]),
-                       createTableCell(y2[i]),
-                       createTableCell(y3[i]),
-                       createTableCell(y4[i]),
-                       createTableCell(y5[i])
-                   ];
-           
-                   // Ajout des cellules à la nouvelle ligne
-                   cells.forEach(cell => newRow.appendChild(cell));
-           
-                   // Ajout de la nouvelle ligne au corps du tableau
-                   dataTableBody.appendChild(newRow);
-               }
-           }*/
+        function afficherDonneesDansTableau(x, y1, y2, y3, y4, y5) {
+            const dataTableBody = document.getElementById('dataTableBody');
+
+            for (let i = 0; i < x.length; i++) {
+                const newRow = document.createElement('tr');
+
+                // Création de cellules
+                const cells = [
+                    createTableCell(x[i]),
+                    createTableCell(y1[i]),
+                    createTableCell(y2[i]),
+                    createTableCell(y3[i]),
+                    createTableCell(y4[i]),
+                    createTableCell(y5[i])
+                ];
+
+                // Ajout des cellules à la nouvelle ligne
+                cells.forEach(cell => newRow.appendChild(cell));
+
+                // Ajout de la nouvelle ligne au corps du tableau
+                dataTableBody.appendChild(newRow);
+            }
+        }
 
         // Fonction utilitaire pour créer une cellule de tableau
+        function createTableCell(content) {
+            const cell = document.createElement('td');
+            cell.textContent = content + " F";
+            return cell;
+        }
+        const generateData = (start = 0, end = 10, step = 1) => {
+            const x = [];
+            const y1 = [];
+            const y2 = [];
+            const y3 = [];
+            const y4 = [];
+            const y5 = [];
 
-        const affiche_tout = (size, step) => {
-            function genererTableauAleatoire(taille) {
-                const tableau = [];
-                for (let i = 0; i < taille; i++) {
-                    tableau.push(Math.floor(Math.random() * 100));
-                }
-                return tableau;
+            for (let index = start; index <= end; index += step) {
+                x.push(index);
+                let tab = genererTableauAleatoire(index);
+                console.log(tab)
+                y1.push(triSelectionIteratifAvecCout([...tab])); // Tri sélection itératif
+                y2.push(triSelectionRecursifAvecCout([...tab])); // Tri sélection récursif
+                y3.push(triBullesAvecCout([...tab])); // Tri à bulles
+                y4.push(triRapideAvecCout([...tab])); // Tri rapide
+                y5.push(triInsertionAvecCout([...tab])); // Tri rapide
+
             }
 
-            function afficherDonneesDansTableau(x, y1, y2, y3, y4, y5) {
-                const dataTableBody = document.getElementById('dataTableBody');
+            return [x, y1, y2, y3, y4, y5];
+        };
 
-                for (let i = 0; i < x.length; i++) {
-                    const newRow = document.createElement('tr');
+        const displayChart = (start = 0, end = 10, step = 1) => {
+            myChart?.destroy()
+            const [labels, data1, data2, data3, data4, data5] = generateData(start, end, step);
 
-                    // Création de cellules
-                    const cells = [
-                        createTableCell(x[i]),
-                        createTableCell(y1[i]),
-                        createTableCell(y2[i]),
-                        createTableCell(y3[i]),
-                        createTableCell(y4[i]),
-                        createTableCell(y5[i])
-                    ];
-
-                    // Ajout des cellules à la nouvelle ligne
-                    cells.forEach(cell => newRow.appendChild(cell));
-
-                    // Ajout de la nouvelle ligne au corps du tableau
-                    dataTableBody.appendChild(newRow);
-                }
-            }
-
-            function createTableCell(content) {
-                const cell = document.createElement('td');
-                cell.textContent = content + " F";
-                return cell;
-            }
-            const generateData = (start = 0, end = 10, step = 1) => {
-                const x = [];
-                const y1 = [];
-                const y2 = [];
-                const y3 = [];
-                const y4 = [];
-                const y5 = [];
-
-                for (let index = start; index <= end; index += step) {
-                    x.push(index);
-                    let tab = genererTableauAleatoire(index);
-                    console.log(tab)
-                    y1.push(triSelectionIteratifAvecCout([...tab])); // Tri sélection itératif
-                    y2.push(triSelectionRecursifAvecCout([...tab])); // Tri sélection récursif
-                    y3.push(triBullesAvecCout([...tab])); // Tri à bulles
-                    y4.push(triRapideAvecCout([...tab])); // Tri rapide
-                    y5.push(triInsertionAvecCout([...tab])); // Tri rapide
-
-                }
-
-                return [x, y1, y2, y3, y4, y5];
-            };
-
-
-            const [labels, data1, data2, data3, data4, data5] = generateData(0, size, step);    
-             myChart.destroy();
             // Configuration du graphique
             const chartConfig = {
                 type: 'line',
@@ -295,34 +275,26 @@
             const ctx = document.getElementById('myChart').getContext('2d');
 
             // Création d'une instance de graphique avec la configuration
-            myChart? myChart = new Chart(ctx, chartConfig):null;
+            myChart = new Chart(ctx, chartConfig);
 
             // Affichage des données dans le tableau
-            afficherDonneesDansTableau(labels, data1, data2, data3, data4, data5);
-
+            //afficherDonneesDansTableau(labels, data1, data2, data3, data4, data5);
         }
 
+        displayChart()
 
+        const inputs = document.querySelectorAll('form input');
 
-        let size = parseInt(document.querySelector('form input#size').value)
-        let step = parseInt(document.querySelector('form input#step').value)
-        console.log({ size, step })
-        affiche_tout(size, step);
-        const inputs = document.querySelectorAll('form input')
         inputs.forEach(input => {
-            input.onchange = (e) => {
-                let {
-                    name,
-                    value,
-                } = e.target;
-                value = parseInt(value)
-                name === 'size' ? affiche_tout(value, step) : affiche_tout(size, value)
-            }
-            
-            
-
-
+            input.onchange = (event) => {
+                let start = parseInt(inputs[0].value);
+                let end = parseInt(inputs[1].value);
+                let step = parseInt(inputs[2].value); // Correction ici
+                console.log({ start, end, step });
+                displayChart(start, end, step)
+            };
         });
+
     </script>
 </body>
 
