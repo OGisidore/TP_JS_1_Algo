@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chart</title>
+</head>
+<body>
+    <div style="max-width: 50rem;">
+        <canvas id="myChart"></canvas>
+      </div>
+      <div  style="max-width: 50rem;">
+        <canvas id="myCharts"></canvas>
+      </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script >
+            const affiche_Number_v1 = (nbrX)=>{
+    let cost = 0
+    if(typeof nbrX !== 'number'){
+        cost++
+        throw Error('enter a number only')
+    }
+    if(nbrX < 0) {
+        cost++
+        throw Error('not supported a negative number. Please enter positive number');
+    }
+
+   let summ = '';
+   cost += 2
+    for (i = 1 ; i <= nbrX; i++){
+        
+        cost += 2
+        // (i < nbrX) ?summ += i +  ' ,':null;
+        // i === nbrX? summ += i + '.': null;
+        summ += i + (i=== nbrX? '.':' ,' )
+        cost += 3
+    }
+     
+    return cost;
+}
+
+
+const affiche_Number_v2 = (nbrX, current=0, cost=0)=>{
+   
+    if(typeof nbrX !== 'number'){
+        cost++
+        throw Error('enter a number only')
+    }
+    if(nbrX < 0) {
+        cost++
+        throw Error('not supported a negative number. Please enter positive number');
+    }
+
+   if(current === nbrX){
+    cost+=2
+  
+    return cost
+   }else{
+    cost+=2
+    return  affiche_Number_v2(nbrX, current+1, cost)
+   }
+}
+
+
+const generate_data = (start=0,end=1000, step=50) =>{
+  const x = []
+  const y1 = []
+  const y2 = []
+  for (let index = start; index < end; index += step) {
+    x.push(index)
+    y1.push(affiche_Number_v1(index))
+    y2.push(affiche_Number_v2(index))
+  }
+
+  return [x,y1,y2]
+
+}
+
+
+const [labels, y1, y2] = generate_data(0, 5000, 100)
+const ctx = document.getElementById('myChart');
+const ctxs = document.getElementById('myCharts');
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+        label: 'algo v1',
+        data: y1,
+        borderColor: 'rgb(75,192,192)',
+        borderWidth: 1
+      },
+      {
+        label: 'algo v2',
+        data: y2,
+        borderColor: 'rgb(255,99,132)',
+        borderWidth: 1
+      }
+    ]
+    },
+    
+    
+    
+  });
+ 
+        </script>
+</body>
+</html>

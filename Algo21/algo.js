@@ -24,7 +24,7 @@
         this.numMembre = numMembre,
         this.livEmpruntes = livEmpruntes
     }
-    emprunter_livre(livre){
+    emprunter_livre(livre){ // 
         var dossier = she.livreDisponibles
         var result;
         for( let i = 0 ; i < dossier.length ; i++){
@@ -40,7 +40,7 @@
             } else{
                 result = 'non'
             }
-            // console.log(elm);
+            
             
         }
         return dossier
@@ -49,26 +49,28 @@
 
     }
     rendre_livre(livre) {
-        var dossier = she.livreDisponibles
+        var dossier = she.livreDisponibles;
+        var dossierPerso = this.livEmpruntes;
+        
         var result;
-        for( let i = 0 ; i < dossier.length ; i++){
-            let elm = dossier[i];
+        for( let i = 0 ; i < dossierPerso.length ; i++){
+            let elm = dossierPerso[i];
            
-            if(livre === elm.titre){
-                let index = dossier.indexOf(elm);
-                console.log(index);
-                result = dossier.splice(index,1)//'verifier' 
-                this.livEmpruntes.push(result)
+            if(livre === elm[i].titre){
+                let index = dossierPerso.indexOf(elm);
+                result = dossierPerso.splice(index,1)//'verifier' 
+                dossier.push(elm)
+               
                 
 
             } else{
-                result = 'non'
+                dossier
             }
-            // console.log(elm);
+           
             
         }
-        return dossier
-
+        
+        return dossierPerso
         
 
 
@@ -123,7 +125,7 @@
                  var livr = ['moni' ,'ilac', 1908, 212];
 
                  var live =  ['mon' ,'isac', 908, 12];
-                 var jeanne = new Membre('jeanne Dupont ', 12 , ['casa del papel']) //[ 'jeanne Dupont ', 12 , 'casa del papel']
+                 var jeanne = new Membre('jeanne Dupont ', 12 , []) //[ 'jeanne Dupont ', 12 , 'casa del papel']
 
 //  console.log(Bibliothèque.ajouter_livre(livr));
 

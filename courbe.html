@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Superposed Curves</title>
+</head>
+
+<body>
+    <canvas id="myChart" width="400" height="200"></canvas>
+    <script>
+        // Données pour les deux courbes
+        const affiche_Number_v1 = (nbrX) => {
+            let cost = 0;
+
+            if (typeof nbrX !== 'number') {
+                cost++;
+                throw new Error('Entrez uniquement un nombre');
+            }
+
+            if (nbrX < 0) {
+                cost++;
+                throw new Error('Les nombres négatifs ne sont pas pris en charge. Veuillez entrer un nombre positif.');
+            }
+
+            let summ = '';
+            cost += 2;
+
+            for (let i = 1; i <= nbrX; i++) {
+                cost += 2;
+                summ += i + (i === nbrX ? '.' : ' ,');
+                cost += 3;
+            }
+
+            return cost;
+        };
+
+        const affiche_Number_v2 = (nbrX, current = 0, cost = 0) => {
+            if (typeof nbrX !== 'number') {
+                cost++;
+                throw new Error('Entrez uniquement un nombre');
+            }
+
+            if (nbrX < 0) {
+                cost++;
+                throw new Error('Les nombres négatifs ne sont pas pris en charge. Veuillez entrer un nombre positif.');
+            }
+
+            if (current === nbrX) {
+                cost += 2;
+                return cost;
+            } else {
+                cost += 2;
+                return affiche_Number_v2(nbrX, current + 1, cost);
+            }
+        };
+
+        const generate_data = (start = 0, end = 1000, step = 50) => {
+            const x = [];
+            const y1 = [];
+            const y2 = [];
+
+            for (let index = start; index <= end; index += step) {
+                x.push(index);
+                y1.push(affiche_Number_v1(index));
+                y2.push(affiche_Number_v2(index));
+            }
+
+            return [x, y1, y2];
+        };
+
+        const [labels, data1, data2] = generate_data(0, 9000, 100);
+
+        // Créez un objet de configuration pour le graphique
+        const chartConfig = {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Algo V1',
+                        borderColor: 'rgb(75, 192, 192)',
+                        data: data1,
+                    },
+                    {
+                        label: 'Algo V2',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: data2,
+                    },
+                ],
+            },
+        };
+
+        // Récupérez le contexte du canevas
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        // Créez une instance de graphique avec la configuration
+        const myChart = new Chart(ctx, chartConfig);
+
+    </script>
+</body>
+
+</html>

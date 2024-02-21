@@ -12,9 +12,9 @@ const calcul_pow = (a , b) =>{
     }
 
     if(b < 0){
-        return 1/calcul_pow(a, -(b))
+        return 1
     }
-     
+    calcul_pow(a, -(b))
 
     // return a**b // math.pow(a,b)
     // return calcul_pow(a,b) * calcul_pow(a,b-1)

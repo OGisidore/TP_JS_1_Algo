@@ -6,21 +6,25 @@ les indice de ces apparition et on peut costituer la longueur de ce
 tableau comme sa frequence*/
 class List{
     tab;
+    
     constructor(tab){
-    this.tab = tab;
-
-    }
-     get_fr(elm){
-        if(typeof this.tab !== 'object'){
+        if(!Array.isArray(tab)){
             throw Error('ceci marche unique pour les liste et les tableaux')
         }
-        let frq = [];
+    this.tab = tab;
+    
+
+    }
+     get_frequency(elm){
+        
+        let frequency = 0;
         for(let i = 0 ; i< this.tab.length ; i++){
             if(this.tab[i] === elm){
-                frq.push(i)
+                frequency ++
             }
         }
-        return frq.length
+        return frequency
+
 
     }
 }
@@ -28,7 +32,7 @@ try {
     // var list = 'ok';
     var list = ['mon', 'nom', 'est', 'mon', 'prenom', 'mon', 'biss', 'est']
     lists = new List(list);
-    let result = lists.get_fr(0);
+    let result = lists.get_frequency('est');
     console.log(result);
 
     

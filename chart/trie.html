@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>chart</title>
+</head>
+
+<body>
+  <div style="max-width: 50rem;">
+    <canvas id="myChart"></canvas>
+  </div>
+  <div style="max-width: 50rem;">
+    <canvas id="myCharts"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+
+    const sort_arr = (tab) => {
+      let cost = 0
+      if (!Array.isArray(tab)) {
+        cost++
+        throw Error(' not found .only tab accepted')
+      }
+      if (tab.length === 0) {
+        cost++
+
+        return cost
+
+      }
+      if (tab.length <= 2) {
+        cost++
+
+        return cost
+      }
+      let n = tab.length
+      cost += 2
+
+      for (i = 0; i < n - 1; i++) {
+        cost += 3
+
+        for (let j = 0; j < n - 1 - i; j++) {
+          cost += 3
+          if (tab[j] > tab[j + 1]) {
+            cost += 3
+            let value = tab[j]
+            tab[j] = tab[j + 1]
+            tab[j + 1] = value
+
+          }
+        }
+      }
+      return cost
+
+
+    }
+    const sort_recursive = (tab, start = 0, cost = 0) => {
+      const n = tab.length
+      cost++
+      if (start < n - 1) {
+        cost += 3;
+        let minindex = start
+        for (let index = start + 1; index < n; index++) {
+          cost += 2
+          if (tab[index] < tab[minindex]) {
+            cost += 2
+            minindex = index
+          }
+
+        }
+
+        if (minindex !== start) {
+          cost += 4
+          const temp = tab[start]
+          tab[start] = tab[minindex]
+          tab[minindex] = temp
+        }
+
+        sort_recursive(tab, start + 1,cost)
+      }
+      console.log(` cost 2 : ${cost}`);
+      // return tab
+      return cost
+
+    }
+
+    const create_array = (n) => {
+      let newTab = [];
+      for (let index = 0; index < n; index++) {
+        newTab.push(Math.ceil(Math.random() * 100))
+      }
+      return newTab
+    }
+    const generate_data = (start = 2, end = 10, step = 2) => {
+      const x = []
+      const y1 = []
+      const y2 = []
+      for (let index = start; index < end; index += step) {
+        x.push(index);
+        let table = create_array(index)
+        y1.push(sort_arr([...table]))
+        y2.push(sort_recursive([...table]))
+      }
+
+      return [x, y1, y2]
+
+    }
+
+
+    const [labels, y1, y2] = generate_data(2, 100, 10)
+    const ctx = document.getElementById('myChart');
+    //const ctxs = document.getElementById('myCharts');
+console.log([labels, y1, y2])
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'algo itératif',
+            data: y1,
+            borderColor: 'rgb(75,192,192)',
+            borderWidth: 1
+          },
+          {
+            label: 'algo recursif',
+            data: y2,
+            borderColor: 'rgb(255,99,132)',
+            borderWidth: 1
+          }
+        ]
+      },
+
+
+
+    });
+
+  </script>
+</body>
+
+</html>

@@ -11,14 +11,10 @@ const set_event = {
             let champ = parent.querySelector('input')
             let input = Number(champ.value)
             
-            // while (input === value) {
-            //     div.classList.toggle('gagn')
-            //     div.innerHTML = `numeros gangnant : ${value} <p>vous avez gagné </p> `   
-                
-            // }
+            
 
-            if (input ===value) {
-                div.classList.toggle('gagn')
+            if (input === value) {
+                div.classList.toggle('gagn');
                 div.innerHTML = `numeros gangnant : ${value} <p>vous avez gagné </p> `
                 
             }else{ 
@@ -33,7 +29,7 @@ const set_event = {
             !input? div.innerHTML = 'entrer un nombre':null;
             champ.value = '';
             champ.focus();
-            value = Math.floor(Math.random()*90)+1;
+            value = Math.ceil(Math.random()*90);
 
             
             
