@@ -1,5 +1,8 @@
+
+
 const tasks = [
     {
+        
         name: "Faire les courses",      // string
         description: "Acheter des fruits, légumes et produits laitiers au supermarché.",  // string
         status: "En attente",          // string
@@ -7,6 +10,7 @@ const tasks = [
         updated_at: null               // null
     },
     {
+        
         name: "Répondre aux e-mails", 
         description: "Répondre aux e-mails professionnels et trier la boîte de réception.",  // string
         status: "En cours",            
@@ -14,6 +18,7 @@ const tasks = [
         updated_at: "2024-02-23T14:15:00"  
     },
     {
+        
         name: "Préparer la présentation",  
         description: "Rassembler les informations nécessaires et créer une présentation pour la réunion de lundi.",  
         status: "À faire",             
@@ -21,6 +26,7 @@ const tasks = [
         updated_at: null               
     },
     {
+        
         name: "Faire de l'exercice",  
         description: "Aller à la salle de sport pendant au moins 30 minutes.", 
         status: "À faire",            
